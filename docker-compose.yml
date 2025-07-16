@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  user_service:
+    build:
+      context: ./user_service
+    container_name: user_service
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    volumes:
+      - ./user_service/app:/app/app
+    environment:
+      - DATABASE_URL=sqlite:///./user.db 
+
+  product_service:
+    build:
+      context: ./product_service
+    container_name: product_service
+    env_file:
+      - .env
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./product_service/app:/app/app
+    environment:
+      - DATABASE_URL=sqlite:///./product.db
+
+  order_service:
+    build:
+      context: ./order_service
+    container_name: order_service
+    env_file:
+      - .env
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./order_service/app:/app/app
+    environment:
+      - DATABASE_URL=sqlite:///./order.db
